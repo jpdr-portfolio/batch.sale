@@ -20,9 +20,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Sale {
+public class SaleDetails {
   
-  Long id;
+  Integer masterId;
+  Long detailsId;
   Integer pointOfSale;
   BigDecimal amount;
   Integer quantity;

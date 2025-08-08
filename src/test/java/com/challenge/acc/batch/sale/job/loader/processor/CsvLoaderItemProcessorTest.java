@@ -2,9 +2,13 @@ package com.challenge.acc.batch.sale.job.loader.processor;
 
 import com.challenge.acc.batch.sale.dto.SaleCsvDto;
 import com.challenge.acc.batch.sale.dto.TaxDto;
-import com.challenge.acc.batch.sale.model.Sale;
+import com.challenge.acc.batch.sale.model.SaleDetails;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.scope.context.StepContext;
+import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,8 +18,12 @@ import java.util.Map;
 
 import static com.challenge.acc.batch.sale.util.TestDataUtils.assertSale;
 import static com.challenge.acc.batch.sale.util.TestDataUtils.getTestSaleCsvDto;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class CsvLoaderItemProcessorTest {
@@ -30,9 +38,9 @@ class CsvLoaderItemProcessorTest {
   @DisplayName("OK - One Sale")
   void givenSaleCSVWhenProcessThenReturnSale(){
     SaleCsvDto inputSale = getTestSaleCsvDto();
-    Sale resultSale = itemProcessor.process(inputSale);
-    assertNotNull(resultSale);
-    assertSale(inputSale, resultSale);
+    SaleDetails resultSaleDetails = itemProcessor.process(inputSale);
+    assertNotNull(resultSaleDetails);
+    assertSale(inputSale, resultSaleDetails);
   }
   
   @Test
@@ -145,6 +153,39 @@ class CsvLoaderItemProcessorTest {
     
     assertThrows(ValidationException.class, () ->
       itemProcessor.process(inputSale));
+  }
+  
+
+  
+  @Test
+  @DisplayName("OK - Sales Master Id is present.")
+  void givenSalesMasterIdWhenBeforeStepThenReturnVoid(){
+    StepContext stepContext = mock(StepContext.class);
+    StepExecution stepExecution = mock(StepExecution.class);
+    JobExecution jobExecution = mock(JobExecution.class);
+    ExecutionContext executionContext = mock(ExecutionContext.class);
+    when(executionContext.containsKey(anyString())).thenReturn(true);
+    when(executionContext.getInt(anyString())).thenReturn(1);
+    when(jobExecution.getExecutionContext()).thenReturn(executionContext);
+    when(stepExecution.getJobExecution()).thenReturn(jobExecution);
+    when(stepContext.getStepExecution()).thenReturn(stepExecution);
+    assertDoesNotThrow(() -> itemProcessor.beforeStep(stepExecution));
+  }
+  
+  
+  @Test
+  @DisplayName("ERROR - Sales Master Id is not present.")
+  void givenSalesMasterIdNotFoundWhenBeforeStepThenThrowException(){
+    StepContext stepContext = mock(StepContext.class);
+    StepExecution stepExecution = mock(StepExecution.class);
+    JobExecution jobExecution = mock(JobExecution.class);
+    ExecutionContext executionContext = mock(ExecutionContext.class);
+    when(executionContext.containsKey(anyString())).thenReturn(false);
+    when(jobExecution.getExecutionContext()).thenReturn(executionContext);
+    when(stepExecution.getJobExecution()).thenReturn(jobExecution);
+    when(stepContext.getStepExecution()).thenReturn(stepExecution);
+    assertThrows(ValidationException.class, () ->
+      itemProcessor.beforeStep(stepExecution));
   }
   
 }

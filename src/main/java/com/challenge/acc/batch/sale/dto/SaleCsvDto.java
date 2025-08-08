@@ -17,6 +17,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SaleCsvDto {
   
+  Long id;
   Integer pointOfSale;
   BigDecimal amount;
   Integer quantity;

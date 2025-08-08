@@ -1,6 +1,6 @@
 package com.challenge.acc.batch.sale.job.loader.writer;
 
-import com.challenge.acc.batch.sale.model.Sale;
+import com.challenge.acc.batch.sale.model.SaleDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,33 +43,34 @@ class CsvLoaderItemWriterTest {
   @Test
   @DisplayName("OK - Chunk with null sales")
   void givenChunkWithNullSalesWhenWriteThenReturnVoid(){
-    Chunk<Sale> chunk = null;
+    Chunk<SaleDetails> chunk = null;
     assertDoesNotThrow(() -> itemWriter.write(chunk));
   }
   
   @Test
   @DisplayName("OK - Chunk with empty sales")
   void givenChunkWithEmptySalesWhenWriteThenReturnVoid(){
-    Chunk<Sale> chunk = Chunk.of();
+    Chunk<SaleDetails> chunk = Chunk.of();
     assertDoesNotThrow(() -> itemWriter.write(chunk));
   }
   
   @Test
   @DisplayName("OK - Chunk with one sale")
   void givenChunkWithOneSaleWhenWriteThenReturnVoid() throws Exception{
-    Chunk<Sale> chunk = getTestSaleChunk(1);
+    Chunk<SaleDetails> chunk = getTestSaleChunk(1);
     itemWriter.write(chunk);
-    verify(connection, times(7)).createArrayOf(anyString(), any());
-    verify(stmt, times(7)).setArray(anyInt(), any());
+    verify(connection, times(9)).createArrayOf(anyString(), any());
+    verify(stmt, times(9)).setArray(anyInt(), any());
   }
   
   @Test
   @DisplayName("OK - Chunk with three sales")
   void givenChunkWithThreeSalesWhenWriteThenReturnVoid() throws Exception{
-    Chunk<Sale> chunk = getTestSaleChunk(3);
+    Chunk<SaleDetails> chunk = getTestSaleChunk(3);
     itemWriter.write(chunk);
-    verify(connection, times(7)).createArrayOf(anyString(), any());
-    verify(stmt, times(7)).setArray(anyInt(), any());
+    verify(connection, times(9)).createArrayOf(anyString(), any());
+    verify(stmt, times(9)).setArray(anyInt(), any());
   }
+ 
   
 }

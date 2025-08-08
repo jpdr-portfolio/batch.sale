@@ -1,6 +1,7 @@
 package com.challenge.acc.batch.sale.job.loader.configuration;
 
 import com.challenge.acc.batch.sale.dto.SaleCsvDto;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;

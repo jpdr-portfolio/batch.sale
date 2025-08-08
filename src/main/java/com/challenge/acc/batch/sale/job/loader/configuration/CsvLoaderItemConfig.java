@@ -4,7 +4,7 @@ import com.challenge.acc.batch.sale.dto.SaleCsvDto;
 import com.challenge.acc.batch.sale.dto.TaxDto;
 import com.challenge.acc.batch.sale.job.loader.processor.CsvLoaderItemProcessor;
 import com.challenge.acc.batch.sale.job.loader.writer.CsvLoaderItemWriter;
-import com.challenge.acc.batch.sale.model.Sale;
+import com.challenge.acc.batch.sale.model.SaleDetails;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
@@ -44,12 +44,12 @@ public class CsvLoaderItemConfig {
   }
   
   @Bean
-  public ItemProcessor<SaleCsvDto, Sale> csvLoaderItemProcessor(Map<Integer, TaxDto> provincesTaxesMap) {
+  public ItemProcessor<SaleCsvDto, SaleDetails> csvLoaderItemProcessor(Map<Integer, TaxDto> provincesTaxesMap) {
     return new CsvLoaderItemProcessor(provincesTaxesMap);
   }
   
   @Bean
-  public ItemWriter<Sale> csvLoaderItemWriter(DataSource dataSource) {
+  public ItemWriter<SaleDetails> csvLoaderItemWriter(DataSource dataSource) {
     return new CsvLoaderItemWriter(dataSource);
   }
   
