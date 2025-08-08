@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: "batch.sale"
+  output:
+    ansi:
+      enabled: ALWAYS
+  threads:
+    virtual:
+      enabled: false
+  datasource:
+    url: jdbc:postgresql://${APP_DB_URL}/${APP_DB_NAME}?reWriteBatchedInserts=true
+    username: ${APP_DB_USERNAME}
+    password: ${APP_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  batch:
+    jdbc:
+      initialize-schema: ALWAYS
+    job:
+      enabled: true
+logging:
+  level:
+    com.challenge.acc.batch.sale.filter: ${APP_LOG_LEVEL}
+
