@@ -42,3 +42,7 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+springBoot {
+    mainClass = 'com.challenge.acc.batch.sale.Application'
+}
+
