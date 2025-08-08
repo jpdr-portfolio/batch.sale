@@ -46,6 +46,14 @@ springBoot {
     mainClass = 'com.challenge.acc.batch.sale.Application'
 }
 
-tasks.named("bootJar") {
-    mainClass = 'com.challenge.acc.batch.sale.Application'
+jar {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        manifest {
+        attributes(
+                'Main-Class': 'com.challenge.acc.batch.sale.Application'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
