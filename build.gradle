@@ -46,3 +46,6 @@ springBoot {
     mainClass = 'com.challenge.acc.batch.sale.Application'
 }
 
+tasks.named("bootJar") {
+    mainClass = 'com.challenge.acc.batch.sale.Application'
+}
