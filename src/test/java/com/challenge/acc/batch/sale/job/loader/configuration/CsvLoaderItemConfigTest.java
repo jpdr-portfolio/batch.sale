@@ -1,12 +1,10 @@
 package com.challenge.acc.batch.sale.job.loader.configuration;
 
 import com.challenge.acc.batch.sale.dto.SaleCsvDto;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.InjectMocks;
-import org.springframework.batch.core.JobParametersValidator;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.boot.test.context.SpringBootTest;
 

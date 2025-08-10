@@ -43,8 +43,7 @@ class CsvLoaderItemWriterTest {
   @Test
   @DisplayName("OK - Chunk with null sales")
   void givenChunkWithNullSalesWhenWriteThenReturnVoid(){
-    Chunk<SaleDetails> chunk = null;
-    assertDoesNotThrow(() -> itemWriter.write(chunk));
+    assertDoesNotThrow(() -> itemWriter.write(null));
   }
   
   @Test
